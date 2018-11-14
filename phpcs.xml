@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+	<description>PHP_CodeSniffer Standards</description>
+
+	<file>.</file>
+
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/storage/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg value="np"/>
+
+	<rule ref="PSR2">
+		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+	</rule>
+
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+	 	<properties>
+	 		<property name="ignoreIndentationTokens" type="array" value="T_COMMENT,T_DOC_COMMENT_OPEN_TAG"/>
+	 		<property name="tabIndent" type="boolean" value="true" />
+	 	</properties>
+	</rule>
+
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
+		<exclude-pattern>vendor/*</exclude-pattern>
+	</rule>
+
+	<rule ref="PSR1.Classes.ClassDeclaration">
+		<exclude-pattern>*/database/migrations/*</exclude-pattern>
+		<exclude-pattern>*/database/seeds/*</exclude-pattern>
+	</rule>
+</ruleset>
