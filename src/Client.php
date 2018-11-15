@@ -32,6 +32,11 @@ class Client
 				'Delimiter' => '/'
 			]);
 
+			$files = array_filter($files, function ($file) {
+				$name = $file->getName();
+				return $name[0] !== '_';
+			});
+
 			return array_map(function ($file) {
 				return rtrim($file->getName(), '/');
 			}, $files);
@@ -40,7 +45,7 @@ class Client
 
 	public function getAlbumImages($albumPath, $fileExts = ['.jpg'])
 	{
-		return $this->cache->remember('b2_album_images_'.$albumPath.'_type_'.implode('', $fileExts), 60 * 24, function() use ($albumPath, $fileExts) {
+		return $this->cache->remember('b2_album_images_'.$albumPath.'_type_'.implode('', $fileExts), 60 * 24, function () use ($albumPath, $fileExts) {
 			$files = $this->b2Client->listFiles([
 				'BucketId' => $this->bucketId,
 				'Delimiter' => '/',
@@ -53,7 +58,8 @@ class Client
 			});
 
 			return array_map(function ($file) use ($albumPath) {
-				return ltrim($file->getName(), $albumPath . '/');
+				// Strip off the album path
+				return substr($file->getName(), strlen($albumPath) + 1);
 			}, $files);
 		});
 	}
